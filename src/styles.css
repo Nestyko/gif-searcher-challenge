@@ -1,0 +1,89 @@
+body {
+  background-color: rgb(17, 21, 24);
+  color: rgb(204, 204, 204);
+  font-family: "Ubuntu", sans-serif;
+}
+
+h1,
+h2 {
+  color: #00c6c0;
+  font-family: "Ubuntu Condensed", sans-serif;
+}
+
+.App {
+  padding: 1rem;
+}
+
+.form-group,
+.output {
+  padding: 1rem;
+  font-family: "Ubuntu Mono", monospace;
+}
+
+.form-group * {
+  margin: 0.3rem;
+}
+
+.form-group label {
+  padding-right: 0.5rem;
+}
+
+.form-group input {
+  background-color: rgb(37, 51, 54);
+  border: solid 1px rgb(53, 70, 71);
+  height: 2rem;
+  font-size: 1rem;
+  color: white;
+  border-radius: 0.4rem;
+  padding: 0rem 0.5rem;
+  transition-property: border-color;
+  transition-timing-function: ease-out;
+  transition-duration: 0.5s; /* This will happen after the hover state and can also be used for consistency on the overall experience */
+}
+
+.form-group input:focus {
+  border-color: rgba(0, 198, 192, 1);
+  outline: none;
+  opacity: 1;
+}
+
+button {
+  background: none;
+  color: rgba(0, 198, 192, 1);
+  transition: background 1s, color 1s;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  background-color: rgba(0, 198, 192, 1);
+  color: white;
+  border-radius: 0.4rem;
+}
+
+button:active {
+  outline: none;
+  transition-duration: 0s;
+  background: rgba(165, 171, 181, 1);
+}
+
+.filters {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.counter * {
+  margin: 0.3rem;
+}
+
+.counter button {
+  height: 2rem;
+  width: 2rem;
+  padding: 0.3rem;
+}
