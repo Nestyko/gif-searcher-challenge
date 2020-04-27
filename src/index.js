@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import "./styles.css";
+import { searchGif } from "./gifs";
 
 const Instructions = () => (
   <>
@@ -21,17 +22,31 @@ const Instructions = () => (
 );
 
 const App = () => {
+  
+
+  handleSearch = (queryStr) => {
+    searchGif()
+  }
+   
   return (
     <>
       <Instructions />
       <div className="filters">
         <div className="form-group">
-          <input type="text" placeholder="Search Gif" />
-          <button>Search</button>
+          <input type="text" placeholder="Search Gif" value={queryStr} />
+          <button onClick={handleSearch}>Search</button>
+          
         </div>
+      </div>
+      <div className="gifs">
+        <Gif />
       </div>
     </>
   );
 };
+
+const Gif = () => {
+  return ();
+}
 
 ReactDOM.render(<App />, document.getElementById("root"));
