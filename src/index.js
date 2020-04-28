@@ -21,32 +21,81 @@ const Instructions = () => (
   </>
 );
 
-const App = () => {
-  
+class App extends React.Component {
+  state = {
+    gifList: []
+  };
 
-  handleSearch = (queryStr) => {
-    searchGif()
-  }
-   
-  return (
-    <>
-      <Instructions />
-      <div className="filters">
-        <div className="form-group">
-          <input type="text" placeholder="Search Gif" value={queryStr} />
-          <button onClick={handleSearch}>Search</button>
-          
+  addNewGif = (gifData) => {
+    this.setState( prevState => ({
+      gifList : [...gifData],
+    }));
+    //console.log("After add", this.state.gifList);
+  };
+
+  render() {
+    return (
+      <>
+        <Instructions />
+        <div className="filters">
+          <Form onSubmit={this.addNewGif}/>
         </div>
-      </div>
-      <div className="gifs">
-        <Gif />
-      </div>
-    </>
-  );
+        <div className="gifs">
+          <GifList data={this.state.gifList}/>
+        </div>
+      </>
+    );
+  }
 };
 
-const Gif = () => {
-  return ();
+const GifList = (props) => (
+	<div>
+    {console.log(props.data)}
+  	{props.data.map(elem => <Gif key={elem.id} {...elem}/>)}
+	</div>
+);
+
+class Form extends React.Component {
+  state = { 
+    queryStr: ''
+  };
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    //console.log(this.state.queryStr);
+    // call API
+    const resp = await searchGif(this.state.queryStr);
+    this.props.onSubmit(resp.data)
+    this.setState({queryStr: ''})
+  }
+  render() {
+    return (
+      <div className="form-group">
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" 
+            onChange={event => this.setState({queryStr : event.target.value})}
+            placeholder="Search Gif" 
+            value={this.state.queryStr} />
+            <button>Search</button>
+          </form>  
+          </div>
+    );
+  }
+}
+
+class Gif extends React.Component {
+  render() {
+    const gif = this.props
+    console.log(gif);
+    return (
+      <div>
+        <img src={gif.images.fixed_height_small.url} />
+        <div className="info">
+          <div className="name">{gif.title}</div>
+        </div>
+      </div>
+    );
+  }
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
