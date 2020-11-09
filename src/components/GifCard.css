@@ -1,0 +1,10 @@
+.GifCard {
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+  }
+  
+  .GifCard img {
+    width: 100%;
+    height: 100%;
+  }

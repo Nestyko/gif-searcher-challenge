@@ -87,3 +87,8 @@ button:active {
   width: 2rem;
   padding: 0.3rem;
 }
+
+.GifContainer {
+  display: flex;
+  flex-wrap: wrap;
+}

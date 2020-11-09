@@ -1,6 +1,8 @@
 import ReactDOM from "react-dom";
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
+import { searchGif, mapGifUrls } from './gifs';
+import GifCard from './components/GifCard';
 
 const Instructions = () => (
   <>
@@ -21,15 +23,60 @@ const Instructions = () => (
 );
 
 const App = () => {
+
+  const [gifs, setGifs] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [showCount, setShowCount] = useState(0);
+
+  const handleGifSearch = async () => {
+    const gifsResponse = await searchGif(searchText);
+    const gifs = gifsResponse.data.map(mapGifUrls)
+    if(showCount === 0) {
+      setShowCount(1);
+    }
+    setGifs(gifs);
+  }
+
+  const onSearchInputChange = event => {
+    const searchText = event.target.value;
+    setSearchText(searchText);
+  };
+
+  const decreaseShowCount = () => {
+    if(showCount > 0) {
+      setShowCount(showCount - 1);
+    }
+  }
+
+  const increaseShowCount = () => {
+    if(showCount < gifs.length) {
+      setShowCount(showCount + 1);
+    }
+  }
+
+  const filteredGifs = gifs.filter((_, index) => index < showCount);
+
   return (
+
     <>
       <Instructions />
       <div className="filters">
         <div className="form-group">
-          <input type="text" placeholder="Search Gif" />
-          <button>Search</button>
+          <input type="text" placeholder="Search Gif" value={searchText} onChange={onSearchInputChange} />
+          <button onClick={handleGifSearch}>Search</button>
         </div>
       </div>
+      <p>Gifs: {gifs.length}</p>
+      <div>
+        <button onClick={decreaseShowCount}>-</button>
+        <button onClick={increaseShowCount}>+</button>
+      </div>
+      <div className="GifContainer">
+        {
+          filteredGifs.map(gif => <GifCard key={gif.key} {...gif} />)
+        }
+      </div>
+      <p>Showing {showCount} of {gifs.length} gifs</p>
     </>
   );
 };
