@@ -1,5 +1,8 @@
 import ReactDOM from "react-dom";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import SearchBar from './components/SearchBar';
+import ImageList from './components/ImageList';
+import { searchGif } from './gifs';
 
 import "./styles.css";
 
@@ -43,19 +46,62 @@ const Instructions = () => (
 );
 
 const App = () => {
+
+  const [search, saveSearch] = useState('');
+  const [counterRel, saveCounterRel] = useState(0);
+  const [images, saveImages] = useState([]);
+  const [count, saveCount] = useState([]);
+  useEffect(() => {
+
+    const queryApi = async () => {
+      if (search === '') return;
+      const result = await searchGif(search).then(result => {
+        saveCount(result.pagination.count);
+        return result.data;
+
+      }).catch(e => {
+        console.log(e);
+      });
+      let finalResult = [];
+      if (counterRel === 0) {
+        result.length > 0 && result.length >= 5 ? saveCounterRel(5) : saveCounterRel(result.length)
+        finalResult = result.slice(0, counterRel)
+      } else {
+        finalResult = result.slice(0, counterRel)
+      }
+
+      saveImages(finalResult);
+
+    }
+
+    queryApi();
+
+  }, [search, counterRel])
+
   return (
     <>
       <Instructions />
       <div className="filters">
-        <div className="form-group">
+        {/*<div className="form-group">
           <input type="text" placeholder="Search Gif" />
           <button>Search</button>
           <button>-</button>
           <span> 0 </span>
           <button>+</button>
-        </div>
+      </div>*/}
+        <SearchBar
+          saveSearch={saveSearch}
+          saveCounterRel={saveCounterRel}
+          counterRel={counterRel}
+          count={count}
+        />
       </div>
-      <div>Gifs goes here</div>
+      <div className="row justify-contet-center">
+        {/*Gifs goes here*/}
+        <ImageList
+          images={images}
+        />
+      </div>
     </>
   );
 };

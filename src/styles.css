@@ -2,6 +2,7 @@ body {
   background-color: rgb(17, 21, 24);
   color: rgb(204, 204, 204);
   font-family: "Ubuntu", sans-serif;
+  overflow-x: hidden;
 }
 
 h1,
@@ -86,4 +87,33 @@ button:active {
   height: 2rem;
   width: 2rem;
   padding: 0.3rem;
+}
+.image{
+  padding: 2rem;
+}
+.counter{
+  padding-top: 15px;
+  text-align: center;
+}
+
+.card{
+  padding: 10px;
+  background: white;
+  box-sizing: border-box;
+  resize: horizontal;
+  border: 1px dashed;
+  overflow: auto;
+  max-width: 100%;
+  height: 100%;
+}
+
+.card img {
+  /*display: block;*/
+  max-width: 300px;
+  max-height: 150px;
+  width: 100%;
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin: 0 auto;
 }

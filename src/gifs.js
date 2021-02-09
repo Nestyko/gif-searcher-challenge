@@ -9,7 +9,8 @@ export const searchGif = query =>
     .get(`${giphyHost}${giphySearchUrl}`, {
       params: {
         api_key: giphyApiKey,
-        q: query
+        q: query,
+        limit: 50
       }
     })
     .then(res => res.data)
