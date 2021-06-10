@@ -48,6 +48,19 @@ const Instructions = () => (
 const App = () => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [gifs, setGifs] = useState([]);
+	const [renderGifs, setRenderGifs] = useState([]);
+	const [maxCount, setMaxCount] = useState(0);
+	const [counter, setCounter] = useState(0);
+
+	const updateGifs = () => {
+		let arr = gifs;
+		arr = gifs.filter((gif, index) => index < counter);
+		setRenderGifs(arr);
+	};
+
+	useEffect(() => {
+		updateGifs();
+	}, [counter]);
 
 	const onClickHandler = () => {
 		// validator
@@ -55,15 +68,25 @@ const App = () => {
 		if (txt === "" || txt === " ") return;
 
 		// fetching the gifs
-		searchGif(searchTerm).then((res) => setGifs(res.data));
+		searchGif(searchTerm).then((res) => {
+			setGifs(res.data);
+			setRenderGifs(res.data);
+			setMaxCount(res.data.length);
+		});
 
 		// clearing the input
 		setSearchTerm("");
 	};
 
-	const renderGifs = gifs.map((gif) => {
-		return <GifItem gif={mapGifUrls(gif)} key={gif.id} />;
-	});
+	const countAdd = () => {
+		if (counter === maxCount) return;
+		setCounter(counter + 1);
+	};
+
+	const countMinus = () => {
+		if (counter === 0) return;
+		setCounter(counter - 1);
+	};
 
 	return (
 		<>
@@ -77,12 +100,17 @@ const App = () => {
 						onChange={(e) => setSearchTerm(e.target.value)}
 					/>
 					<button onClick={onClickHandler}>Search</button>
-					<button>-</button>
-					<span> 0 </span>
-					<button>+</button>
+					<button onClick={countMinus}>-</button>
+					<span> {counter} </span>
+					<button onClick={countAdd}>+</button>
 				</div>
 			</div>
-			<div className="gifs-results">{gifs.length > 0 && renderGifs}</div>
+			<div className="gifs-results">
+				{renderGifs.length > 0 &&
+					renderGifs.map((gif, index) => {
+						return <GifItem gif={mapGifUrls(gif)} key={gif.id} />;
+					})}
+			</div>
 		</>
 	);
 };
